@@ -49,15 +49,15 @@ angular
             switch(e.data[0]) {
                 case 144:
                     Engine.noteOn(e.data[1], e.data[2]);
-                    socket.emit("note-on", {"note": e.data[1], "velocity":e.data[2]});
+                    socket.emit("note-on", {"note": e.data[1], "velocity":e.data[2], "id": clientId});
                 break;
                 case 128:
                     Engine.noteOff(e.data[1]);
-                    socket.emit("note-off", {"note": e.data[1]});
+                    socket.emit("note-off", {"note": e.data[1], "id": clientId});
                 break;
                 case 224:
                     Engine.detune(e.data[2]);
-                    socket.emit("detune", {"detune": e.data[2]});
+                    socket.emit("detune", {"detune": e.data[2], "id": clientId});
                 break;
             }
 

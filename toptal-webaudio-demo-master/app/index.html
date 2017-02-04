@@ -14,19 +14,8 @@
     <body>
       <script>
       var socket = io();
-
-      socket.on('note-on', function(object){
-        console.log(object);
-        // socket.broadcast.emit(object);
-      });
-      socket.on('note-off', function(object){
-        console.log(object);
-        // socket.broadcast.emit(object);
-      });
-      socket.on('detune', function(object){
-        console.log(object);
-        // socket.broadcast.emit(object);
-      });
+      var clientId = null;
+      
       </script>
 
         <!--

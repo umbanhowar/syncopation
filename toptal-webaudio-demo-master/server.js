@@ -17,12 +17,30 @@ server.listen(process.env.PORT || 3000);
 
 var clients = [];
 
+function getClientById(id) {
+	clients.forEach(function (client) {
+      if (client.id == id) {
+      	return client;
+      }
+    });
+}
+
+function getClientBySocket(socket) {
+	clients.forEach(function (client) {
+      if (client.socket == socket) {
+      	return client;
+      }
+    });
+}
+
+
 io.on('connection', function(socket){
   console.log('a user connected');
 
-  var client_id = Math.floor(Math.random() * 100000);
-  clients.push({'socket':socket, 'id':client_id});
-  socket.broadcast.emit("new-connection", {"id":client_id});
+  var clientId = Math.floor(Math.random() * 100000);
+  clients.push({'socket':socket, 'id':clientId});
+  socket.broadcast.emit("new-connection", {"id":clientId});
+  socket.emit("client-id", {"id":clientId});
 
   socket.on('note-on', function(object){
     console.log(object);
