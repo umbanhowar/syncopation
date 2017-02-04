@@ -3,5 +3,10 @@
 </head>
 <body>
 HELLO WORLD!
+
+<select ng-model="activeDevice" class="form-control" ng-options="device.manufacturer + ' ' + device.name for device in devices">
+    <option value="" disabled>Choose a MIDI device...</option>
+</select>
+
 </body>
 </html>
