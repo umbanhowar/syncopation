@@ -9,8 +9,26 @@
                 width: 100%;
             }
         </style>
+        <script src="/socket.io/socket.io.js"></script>
     </head>
     <body>
+      <script>
+      var socket = io();
+
+      socket.on('note-on', function(object){
+        console.log(object);
+        // socket.broadcast.emit(object);
+      });
+      socket.on('note-off', function(object){
+        console.log(object);
+        // socket.broadcast.emit(object);
+      });
+      socket.on('detune', function(object){
+        console.log(object);
+        // socket.broadcast.emit(object);
+      });
+      </script>
+
         <!--
         This sample is published as part of the blog article at www.toptal.com/blog
         Visit www.toptal.com/blog and subscribe to our newsletter to read great posts
@@ -84,5 +102,6 @@
         <script src="/js/audio.js"></script>
         <script src="/js/synth.js"></script>
         <script src="/js/app.js"></script>
+        <script src="/js/client.js"></script>
     </body>
 </html>

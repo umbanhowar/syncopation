@@ -3,6 +3,7 @@
 // Visit www.toptal.com/blog and subscribe to our newsletter to read great posts
 ////////
 
+
 angular
     .module('Synth', ['WebAudio', 'WebAnalyser'])
     .factory('DSP', ['AudioEngine', 'Analyser', function(Engine, Analyser) {
@@ -11,6 +12,7 @@ angular
         self.analyser = null;
 
         Engine.init();
+
 
         function _unplug() {
             self.device.onmidimessage = null;
@@ -47,12 +49,15 @@ angular
             switch(e.data[0]) {
                 case 144:
                     Engine.noteOn(e.data[1], e.data[2]);
+                    socket.emit("note-on", {"note": e.data[1], "velocity":e.data[2]});
                 break;
                 case 128:
                     Engine.noteOff(e.data[1]);
+                    socket.emit("note-off", {"note": e.data[1]});
                 break;
                 case 224:
                     Engine.detune(e.data[2]);
+                    socket.emit("detune", {"detune": e.data[2]});
                 break;
             }
 
