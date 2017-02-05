@@ -8,7 +8,7 @@ angular
     .controller('WebSynthCtrl', ['$scope', 'Devices', 'DSP', function($scope, devices, DSP) {
         $scope.devices = [];
         $scope.analyser = null;
-        $scope.players = ["p1", "p2"];
+        $scope.players = ["p1", "p2"];//["me"] + otherClients;
 
         $scope.oscTypes = ['sine', 'square', 'triangle', 'sawtooth'];
         $scope.filterTypes = ['lowpass', 'highpass'];
@@ -62,6 +62,7 @@ angular
         $scope.$watch('synth.filterRes', DSP.setFilterResonance);
         $scope.$watch('synth.attack', DSP.setAttack);
         $scope.$watch('synth.release', DSP.setRelease);
+        //$scope.$watch('otherClients')
     }])
     .directive('player', function() {
 
