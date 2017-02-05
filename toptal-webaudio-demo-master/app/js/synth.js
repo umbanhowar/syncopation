@@ -109,7 +109,7 @@ angular
                 mySynth = new Tone.PolySynth(6, self.synthList[self.synthIndex]).toMaster();
                 
                 console.log("Synth changed!");
-                socket.emit('synth-change', {"id": clientId, "synth": mySynth});
+                socket.emit('synth-change', {"id": clientId, "synth": self.synthIndex});
             }
         }
 
