@@ -13,7 +13,7 @@
         </style>
         <script src="/socket.io/socket.io.js"></script>
 
-<link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
 
 
     </head>
@@ -22,6 +22,7 @@
       var socket = io();
       var clientId = null;
       var mySynth = null;
+      var mySynthIndex = null;
       var mySynthParams = null;
       var synthList = null;
 
@@ -47,12 +48,74 @@
                     </div>        
                     <div class="div_sub_container">
                         <div class="div_vert_slider">
+                            <input type="range" class="input_vert" min="-20" max="20" step="0.1" ng-model="synth.volume.value"/>
+                        </div>
+                        <div class="div_selects">
+                            <!--<select class="select_device">
+                                <option selected disabled>choose device</option>
+                            </select>-->
+                            <select class="select_device" ng-model="activeDevice" class="form-control" ng-options="device.manufacturer + ' ' + device.name for device in devices">
+                                <option value="" disabled>Choose a MIDI device...</option>
+                            </select>
+                            <select class="select_synth">
+                                <option selected disabled>select synth</option>
+                                <option value="0">Synth</option>
+                                <option value="1">AMSynth</option>
+                                <option value="2">FMSynth</option>
+                                <option value="3">DuoSynth</option>
+                            </select>
+                            <select class="select_waveform" ng-model="synth.oscType.value">
+                                <option selected disabled>waveform</option>
+                                <option value="triangle">triangle</option>
+                                <option value="sine">sine</option>
+                                <option value="square">square</option>
+                                <option value="sawtooth">sawtooth</option>
+                            </select>
+                        </div>
+                        <div class="div_hor_sliders">
+                            <div class="div_slider_input">
+                                <label class="label_text">attack</label>
+                                <input type="range" class="slider_input" min="0" max="10" step="0.001" ng-model="synth.attack.value"/>
+                            </div>
+                            <div class="div_slider_input">
+                                <label class="label_text">decay</label>
+                                <input type="range" class="slider_input" min="0" max="10" step="0.001" ng-model="synth.decay.value"/>
+                            </div>
+                            <div class="div_slider_input">
+                                <label class="label_text">sustain</label>
+                                <input type="range" class="slider_input" min="0" max="1" step="0.001" ng-model="synth.sustain.value"/>
+                            </div>
+                            <div class="div_slider_input">
+                                <label class="label_text">release</label>
+                                <input type="range" class="slider_input" min="0" max="10" step="0.001" ng-model="synth.release.value"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="div_waveform_visualizer"></div>
+          </div>
+
+
+
+          <div class="div_player">
+                <div class="div_green_sidebar"></div>
+                <div class="div_center">
+                    <div class="div_top_bar">
+                        <div class="div_ex">
+                            <img src="/images/Asset18.svg" class="svg_ex">
+                        </div>
+                        <label class="label_top_text">synth_01</label>
+                    </div>        
+                    <div class="div_sub_container">
+                        <div class="div_vert_slider">
                             <input type="range" class="input_vert" min="0" max="150" ng-model="synth.filterRes"/>
                         </div>
                         <div class="div_selects">
                             <select class="select_device">
                                 <option selected disabled>choose device</option>
                             </select>
+
                             <select class="select_waveform">
                                 <option selected disabled>waveform</option>
                                 <option value="1">triangle</option>

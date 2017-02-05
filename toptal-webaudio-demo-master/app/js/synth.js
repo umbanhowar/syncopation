@@ -11,10 +11,10 @@ angular
         self.device = null;
         self.analyser = null;
 
-        synthList = [Tone.AMSynth, Tone.DuoSynth, Tone.FMSynth, Tone.Synth];
+        synthList = [Tone.Synth, Tone.AMSynth, Tone.FMSynth, Tone.DuoSynth];
 
         // works, works, works, no, no, no, no, works,
-        self.synthIndex = 0;
+        mySynthIndex = 0;
 
         Engine.init();
 
@@ -106,32 +106,33 @@ angular
         }
 
         function changeSynthById(id) {
-          self.synthIndex = id;
+          mySynthIndex = id;
           var synth = synthList[id];
           mySynthParams = synth.defaults;
           if (mySynth !== null) {
             mySynth.dispose();
           }
           mySynth = new Tone.PolySynth(6, synth).toMaster();
-          socket.emit('synth-change', {"id": clientId, "synth": self.synthIndex, "params": mySynthParams});
+          socket.emit('synth-change', {"id": clientId, "synth": mySynthIndex, "params": mySynthParams});
         }
 
-        function changeSynthParams(params) {
-          var synth = synthList[self.synthIndex];
+        function _changeSynthParams(params) {
+        console.log("change synth params!");
+          var synth = synthList[mySynthIndex];
           mySynthParams = params;
           if (mySynth !== null) {
             mySynth.dispose();
           }
           mySynth = new Tone.PolySynth(6, synth.bind(null, mySynthParams)).toMaster();
-          socket.emit('synth-change', {"id": clientId, "synth": self.synthIndex, "params": mySynthParams});
+          socket.emit('synth-change', {"id": clientId, "synth": mySynthIndex, "params": mySynthParams});
         }
 
         function _changeSynth(enable) {
             if(enable !== undefined) {
-                self.synthIndex = (self.synthIndex + 1) % synthList.length;
-                changeSynthById(self.synthIndex);
+                mySynthIndex = (mySynthIndex + 1) % synthList.length;
+                changeSynthById(mySynthIndex);
                 console.log("Synth changed!");
-                console.log(synthList[self.synthIndex].toString());
+                console.log(synthList[mySynthIndex].toString());
             }
         }
 
@@ -146,6 +147,7 @@ angular
             setFilterResonance: Engine.filter.setResonance,
             enableFilter: _enableFilter,
             changeSynth: _changeSynth,
-            midiToFreq: _midiToFreq
+            midiToFreq: _midiToFreq,
+            changeSynthParams: _changeSynthParams,
         };
     }]);
