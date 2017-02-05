@@ -64,14 +64,6 @@ var appModule = angular
     .controller('WebSynthCtrl', ['$scope', 'Devices', 'DSP', function($scope, devices, DSP) {
         $scope.devices = [];
         $scope.analyser = null;
-<<<<<<< HEAD
-        $scope.players = ["me"];
-
-        for(client in otherClients)
-            $scope.players.push(client.id);
-        console.log(otherClients);
-=======
->>>>>>> eecbaf034b81c9fd3487f20158148c30cb071590
 
         $scope.oscTypes = ['sine', 'square', 'triangle', 'sawtooth'];
         $scope.filterTypes = ['lowpass', 'highpass'];
