@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(event) {
   //do work
-  var socket = io();
-
+  mySynth = new Tone.PolySynth(6, Tone.Synth).toMaster();
   var otherClients = [];
 
   var removeClientById = function(id) {
@@ -24,27 +23,57 @@ document.addEventListener("DOMContentLoaded", function(event) {
     otherClients = newClients;
   };
 
+  var getClientSynthById = function (id) {
+    console.log("in getClientSynthById, logging otherclients");
+    console.log(otherClients);
+    console.log("target client id: "+id);
+    var client_synth = null;
+    otherClients.forEach(function (client) {
+      console.log("looking at client id " + client.id)
+      if (client.id == id) {
+        client_synth = client.synth;
+      }
+    });
+    if (client_synth == null) {
+      console.log("client not found");
+    }
+    return client_synth;
+  }
 
- 
+  function _midiToFreq(d) {
+    var res = Math.pow(2, (d-69)/12.0)*440;
+    return res;
+  }
+
+  socket.on('client-list', function (object) {
+    // set the client list to include the clients already in the room
+    otherClients = object.list;
+  });
   socket.on('new-connection', function (object) {
-    // a new client has joined! 
-    var newSynth = null; //make a new synth!!!
-    var newClient = {"id":object.id, "synth":newSynth}; 
+    // a new client has joined!
+    var newSynth = new Tone.PolySynth(6, Tone.Synth).toMaster(); //make a new synth!!!
+    var newClient = {"id":object.id, "synth":newSynth};
     otherClients.push(newClient);
-    console.log(object);
+    console.log(otherClients);
   });
   socket.on('user-disconnect', function (object) {
     removeClientById(object.id);
     console.log(object);
   });
   socket.on('synth-change', function (object) {
-    
+
     console.log(object);
   });
   socket.on('note-on', function (object) {
+    var clientSynth = getClientSynthById(object.id);
+    var scaledVelocity = object.velocity/127.0;
+    var freq = _midiToFreq(object.note);
+    clientSynth.triggerAttack(freq, 0, scaledVelocity);
     console.log(object);
   });
   socket.on('note-off', function (object) {
+    var clientSynth = getClientSynthById(object.id);
+    clientSynth.triggerRelease(_midiToFreq(object.note));
     console.log(object);
   });
   socket.on('detune', function (object) {

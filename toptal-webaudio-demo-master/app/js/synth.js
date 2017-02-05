@@ -38,6 +38,11 @@ angular
             return self.analyser;
         }
 
+        function _midiToFreq(d) {
+          var res = Math.pow(2, (d-69)/12.0)*440;
+          return res;
+        }
+
         function _onmidimessage(e) {
             /**
             * e.data is an array
@@ -48,11 +53,16 @@ angular
             console.log("MIDI received!");
             switch(e.data[0]) {
                 case 144:
-                    Engine.noteOn(e.data[1], e.data[2]);
+                    //Engine.noteOn(e.data[1], e.data[2]);
+                    var scaledVelocity = e.data[2]/127;
+                    var freq = _midiToFreq(e.data[1]);
+                    mySynth.triggerAttack(freq, 0, scaledVelocity);
+                    console.log("MyclientId "+clientId);
                     socket.emit("note-on", {"note": e.data[1], "velocity":e.data[2], "id": clientId});
                 break;
                 case 128:
-                    Engine.noteOff(e.data[1]);
+                    //Engine.noteOff(e.data[1]);
+                    mySynth.triggerRelease(_midiToFreq(e.data[1]));
                     socket.emit("note-off", {"note": e.data[1], "id": clientId});
                 break;
                 case 224:
@@ -82,6 +92,7 @@ angular
             setRelease: Engine.setRelease,
             setFilterFrequency: Engine.filter.setFrequency,
             setFilterResonance: Engine.filter.setResonance,
-            enableFilter: _enableFilter
+            enableFilter: _enableFilter,
+            midiToFreq: _midiToFreq
         };
     }]);
