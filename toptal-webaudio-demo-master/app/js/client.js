@@ -65,8 +65,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     console.log(object);
   });
   socket.on('synth-change', function (object) {
-
-    console.log(object);
+    otherClients.map(function (client) {
+      if (client.id == object.id) {
+        client.synth = object.synth;
+      }
+    });
   });
   socket.on('note-on', function (object) {
     var clientSynth = getClientSynthById(object.id);

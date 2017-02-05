@@ -45,7 +45,7 @@ io.on('connection', function(socket){
     clientIdList.push(client.id);
   });
   socket.emit("client-list", {"list":clientIdList});
-  clients.push({'socket':socket, 'id':clientId});
+  clients.push({'socket':socket, 'id':clientId, 'synth':null});
   socket.broadcast.emit("new-connection", {"id":clientId});
   socket.emit("client-id", {"id":clientId});
 
@@ -62,6 +62,16 @@ io.on('connection', function(socket){
     console.log(object);
     socket.broadcast.emit("detune", object);
   });
+  socket.on('synth-change', function(object){
+    // note: when clients connect, they need to emit a synth-change event!!!
+    socket.broadcast.emit("synth-change", object);
+    clients.map(function (client) {
+      if (client.id == object.id) {
+        client.synth = object.synth;
+      }
+    });
+  });
+
 
   socket.on('disconnect', function(socket){
     console.log('user disconnected');
