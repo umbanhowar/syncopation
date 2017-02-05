@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(event) {
   //do work
-  mySynth = new Tone.PolySynth(6, Tone.AMSynth).toMaster();
+  mySynth = new Tone.PolySynth(6, Tone.Synth).toMaster();
   mySynthParams = Tone.AMSynth.defaults;
 
   //appModule 
@@ -78,7 +78,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     console.log(object.synth);
     otherClients.map(function (client) {
       if (client.id == object.id) {
-        client.synth = new Tone.PolySynth(6, object.synth.bind(null, object.params)).toMaster();
+        client.synth = new Tone.PolySynth(6, synthList[object.synth]).toMaster();
+        updateSynthParams(client.synth, object.params);
       }
     });
   });

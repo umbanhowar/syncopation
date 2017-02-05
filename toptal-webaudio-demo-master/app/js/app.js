@@ -3,7 +3,60 @@
 // Visit www.toptal.com/blog and subscribe to our newsletter to read great posts
 ////////
 
- 
+ function updateSynthParams(polySynth, newParams) {
+    var params = mySynthParams;
+    console.log(mySynthIndex);
+    console.log(params);
+    console.log(newParams);
+
+    polySynth.voices.forEach(function(synth) {
+        switch(mySynthIndex) {
+        case 0:
+            synth.oscillator.type = newParams.oscType.value;
+            synth.envelope.attack = newParams.attack.value;
+            synth.envelope.decay = newParams.decay.value;
+            synth.envelope.sustain = newParams.sustain.value;
+            synth.envelope.release = newParams.release.value;
+        break;
+        case 1:
+            synth.oscillator.type = newParams.oscType.value;
+            synth.envelope.attack = newParams.attack.value;
+            synth.envelope.decay = newParams.decay.value;
+            synth.envelope.sustain = newParams.sustain.value;
+            synth.envelope.release = newParams.release.value;
+        break;
+        case 2:
+            synth.oscillator.type = newParams.oscType.value;
+            synth.envelope.attack = newParams.attack.value;
+            synth.envelope.decay = newParams.decay.value;
+            synth.envelope.sustain = newParams.sustain.value;
+            synth.envelope.release = newParams.release.value;
+        break;
+        case 3:
+            synth.voice0.oscillator.type = newParams.oscType.value;
+            synth.voice0.envelope.attack = newParams.attack.value;
+            synth.voice0.envelope.decay = newParams.decay.value;
+            synth.voice0.envelope.sustain = newParams.sustain.value;
+            synth.voice0.envelope.release = newParams.release.value;
+        break;
+        }
+    });
+    
+    //mySynth.voices[0] = synth;
+    console.log(params);
+    mySynthParams = params
+}
+
+function snapshot(params) {
+    var newParams = {};
+    for (var key in params) {
+        console.log(key);
+        newParams[key] = {};
+        newParams[key].value = params[key].value;
+    };
+    console.log(newParams);
+    return newParams;
+}
 
 
 var appModule = angular
@@ -27,6 +80,28 @@ var appModule = angular
         $scope.clientList = new clientList();
 
 
+        function synthSetting(val, lowBound, upBound) {
+            var value = val;
+            var lowerBound = lowBound;
+            var upperBound = upBound;
+
+            this.__defineGetter__("value", function() {
+                return value;
+            });
+            this.__defineSetter__("value", function(val) {
+                val = parseInt(val);
+                if (val > upperBound) {
+                    val = upperBound;
+                } 
+                if (val < lowerBound) {
+                    val = lowerBound;
+                }
+                value = val;
+                console.log(value);
+                DSP.changeSynth(val, snapshot($scope.synth));
+            });
+        };
+
         function numSetting(val, lowBound, upBound) {
             var value = val;
             var lowerBound = lowBound;
@@ -45,7 +120,8 @@ var appModule = angular
                 }
                 value = val;
                 console.log(value);
-                updateSynthParams($scope.synth);
+                updateSynthParams(mySynth, $scope.synth);
+                DSP.changeSynthParams(snapshot($scope.synth));
             });
         };
 
@@ -61,36 +137,15 @@ var appModule = angular
                     value = val;
                 }
                 console.log(value);
-                updateSynthParams($scope.synth);
+                updateSynthParams(mySynth, $scope.synth);
+                DSP.changeSynthParams(snapshot($scope.synth));
             });
         };
        
-        function updateSynthParams(newParams) {
-            var params = mySynthParams;
-            console.log(mySynthIndex);
-            console.log(params);
-            console.log(newParams);
-
-            mySynth.voices.forEach(function(synth) {
-                switch(mySynthIndex) {
-                case 0:
-                    synth.oscillator.type = newParams.oscType.value;
-                    synth.envelope.attack = newParams.attack.value;
-                    synth.envelope.decay = newParams.decay.value;
-                    synth.envelope.sustain = newParams.sustain.value;
-                    synth.envelope.release = newParams.release.value;
-                break;
-                }
-            });
-         
-            
-            //mySynth.voices[0] = synth;
-            console.log(params);
-            mySynthParams = params
-            //DSP.changeSynthParams(params);
-        }
+        
 
         $scope.synth = {
+            type: new synthSetting(0,0,3),
             oscType: new strSetting("sine", ['sine', 'square', 'triangle', 'sawtooth']),
             attack:  new numSetting(0.001,0,10),
             decay:   new numSetting(0    ,0,10),

@@ -105,7 +105,7 @@ angular
             }
         }
 
-        function changeSynthById(id) {
+        function changeSynthById(id, params) {
           mySynthIndex = id;
           var synth = synthList[id];
           mySynthParams = synth.defaults;
@@ -113,24 +113,19 @@ angular
             mySynth.dispose();
           }
           mySynth = new Tone.PolySynth(6, synth).toMaster();
-          socket.emit('synth-change', {"id": clientId, "synth": mySynthIndex, "params": mySynthParams});
+          socket.emit('synth-change', {"id": clientId, "synth": mySynthIndex, "params": params});
         }
 
         function _changeSynthParams(params) {
-        console.log("change synth params!");
-          var synth = synthList[mySynthIndex];
-          mySynthParams = params;
-          if (mySynth !== null) {
-            mySynth.dispose();
-          }
-          mySynth = new Tone.PolySynth(6, synth.bind(null, mySynthParams)).toMaster();
-          socket.emit('synth-change', {"id": clientId, "synth": mySynthIndex, "params": mySynthParams});
+            console.log("change synth params!");
+        
+            socket.emit('synth-change', {"id": clientId, "synth": mySynthIndex, "params": params});
         }
 
-        function _changeSynth(enable) {
-            if(enable !== undefined) {
-                mySynthIndex = (mySynthIndex + 1) % synthList.length;
-                changeSynthById(mySynthIndex);
+        function _changeSynth(index, params) {
+            if(index !== undefined) {
+                mySynthIndex = index;
+                changeSynthById(mySynthIndex, params);
                 console.log("Synth changed!");
                 console.log(synthList[mySynthIndex].toString());
             }
