@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(event) {
   //do work
-  mySynth = new Tone.PolySynth(6, Tone.FMSynth).toMaster();
+  mySynth = new Tone.PolySynth(6, Tone.AMSynth).toMaster();
+  mySynthParams = Tone.AMSynth.defaults;
   var otherClients = [];
 
   var removeClientById = function(id) {
@@ -48,14 +49,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
   socket.on('client-list', function (object) {
     // set the client list to include the clients already in the room
     object.list.forEach(function (id) {
-      var newSynth = new Tone.PolySynth(6, Tone.Synth).toMaster();
+      var newSynth = new Tone.PolySynth(6, Tone.AMSynth).toMaster();
       otherClients.push({"id":id, "synth":newSynth});
     });
 
   });
   socket.on('new-connection', function (object) {
     // a new client has joined!
-    var newSynth = new Tone.PolySynth(6, Tone.Synth).toMaster(); //make a new synth!!!
+    var newSynth = new Tone.PolySynth(6, Tone.AMSynth).toMaster(); //make a new synth!!!
     var newClient = {"id":object.id, "synth":newSynth};
     otherClients.push(newClient);
     console.log(otherClients);
@@ -64,10 +65,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
     removeClientById(object.id);
     console.log(object);
   });
+  // socket.on('synth-change', function (object) {
+  //   console.log(object.synth);
+  //   otherClients.map(function (client) {
+  //     if (client.id == object.id) {
+  //       client.synth = new Tone.PolySynth(6, synthList[object.synth]).toMaster();
+  //     }
+  //   });
+  // });
   socket.on('synth-change', function (object) {
+    console.log(object.synth);
     otherClients.map(function (client) {
       if (client.id == object.id) {
-        client.synth = object.synth;
+        client.synth = new Tone.PolySynth(6, object.synth.bind(null, object.params)).toMaster();
       }
     });
   });

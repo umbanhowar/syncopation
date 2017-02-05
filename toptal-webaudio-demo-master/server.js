@@ -45,7 +45,7 @@ io.on('connection', function(socket){
     clientIdList.push(client.id);
   });
   socket.emit("client-list", {"list":clientIdList});
-  clients.push({'socket':socket, 'id':clientId, 'synth':null});
+  clients.push({'socket':socket, 'id':clientId, 'synth':null, 'params': null});
   socket.broadcast.emit("new-connection", {"id":clientId});
   socket.emit("client-id", {"id":clientId});
 
@@ -68,6 +68,7 @@ io.on('connection', function(socket){
     clients.map(function (client) {
       if (client.id == object.id) {
         client.synth = object.synth;
+        client.params = object.params;
       }
     });
   });
