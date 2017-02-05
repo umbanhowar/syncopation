@@ -55,6 +55,7 @@ angular
         $scope.$watch('activeDevice', DSP.plug);
         $scope.$watch('synth.oscType', DSP.setOscType);
         $scope.$watch('synth.filterOn', DSP.enableFilter);
+        $scope.$watch('synth.changeSynth', DSP.changeSynth);
         $scope.$watch('synth.filterType', DSP.setFilterType);
         $scope.$watch('synth.filterFreq', DSP.setFilterFrequency);
         $scope.$watch('synth.filterRes', DSP.setFilterResonance);
