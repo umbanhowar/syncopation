@@ -7,7 +7,7 @@
 
         <style type="text/css">
             #analyser {
-                height: 220px;
+                height: 100%;
                 width: 100%;
             }
         </style>
@@ -29,13 +29,16 @@
       </script>
 
 
-
         <!--
         This sample is published as part of the blog article at www.toptal.com/blog
         Visit www.toptal.com/blog and subscribe to our newsletter to read great posts
         -->
+        
         <div class="synth container" ng-controller="WebSynthCtrl">
 
+            <div class="div_logo_box">
+               <img src="/images/logo.svg" class="div_logo">
+           </div>
 
             <div class="div_player">
                 <div class="div_green_sidebar"></div>
@@ -147,6 +150,11 @@
             
                 <div class="div_waveform_visualizer"></div>
           </div>
+
+
+            <div ng-repeat="player in players">
+                <player player-name="player"></player>
+            </div>
 
 
             <h1>webaudio synth</h1>
