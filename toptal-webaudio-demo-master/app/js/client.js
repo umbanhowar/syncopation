@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   //do work
   mySynth = new Tone.PolySynth(6, Tone.AMSynth).toMaster();
   mySynthParams = Tone.AMSynth.defaults;
-  var otherClients = [];
+
+  //appModule 
 
   var removeClientById = function(id) {
     var newClients = [];

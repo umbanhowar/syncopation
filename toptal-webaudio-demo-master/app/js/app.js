@@ -6,15 +6,25 @@
  
 
 
-angular
+var appModule = angular
     .module('WebSynth', ['WebMIDI', 'Synth'])
     .controller('WebSynthCtrl', ['$scope', 'Devices', 'DSP', function($scope, devices, DSP) {
         $scope.devices = [];
         $scope.analyser = null;
-        $scope.players = ["p1", "p2"];//["me"] + otherClients;
 
         $scope.oscTypes = ['sine', 'square', 'triangle', 'sawtooth'];
         $scope.filterTypes = ['lowpass', 'highpass'];
+
+        function clientList() {
+            this.__defineGetter__("clients", function() {
+                return otherClients;
+            });
+            this.__defineSetter__("clients", function(val) {
+
+            });
+        };
+
+        $scope.clientList = new clientList();
 
 
         function numSetting(val, lowBound, upBound) {
