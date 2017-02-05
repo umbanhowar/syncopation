@@ -11,6 +11,9 @@ angular
         self.device = null;
         self.analyser = null;
 
+        self.synthList = [Tone.Synth, Tone.FMSynth, Tone.AMSynth];
+        self.synthIndex = 0;
+
         Engine.init();
 
 
@@ -100,6 +103,16 @@ angular
             }
         }
 
+        function _changeSynth(enable) {
+            if(enable !== undefined) {
+                self.synthIndex = (self.synthIndex + 1) % 3;
+                mySynth = new Tone.PolySynth(6, self.synthList[self.synthIndex]).toMaster();
+                
+                console.log("Synth changed!");
+                socket.emit('synth-change', {"id": clientId, "synth": mySynth});
+            }
+        }
+
         return {
             plug: _plug,
             createAnalyser: _createAnalyser,
@@ -110,6 +123,7 @@ angular
             setFilterFrequency: Engine.filter.setFrequency,
             setFilterResonance: Engine.filter.setResonance,
             enableFilter: _enableFilter,
+            changeSynth: _changeSynth,
             midiToFreq: _midiToFreq
         };
     }]);
