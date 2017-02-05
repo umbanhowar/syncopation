@@ -40,7 +40,11 @@ io.on('connection', function(socket){
   //console.log(socket);
 
   var clientId = Math.floor(Math.random() * 100000);
-  //socket.emit("client-list", {"list":clients});
+  var clientIdList = [];
+  clients.map(function (client) {
+    clientIdList.push(client.id);
+  });
+  socket.emit("client-list", {"list":clientIdList});
   clients.push({'socket':socket, 'id':clientId});
   socket.broadcast.emit("new-connection", {"id":clientId});
   socket.emit("client-id", {"id":clientId});

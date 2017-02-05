@@ -47,7 +47,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   socket.on('client-list', function (object) {
     // set the client list to include the clients already in the room
-    otherClients = object.list;
+    object.list.forEach(function (id) {
+      var newSynth = new Tone.PolySynth(6, Tone.Synth).toMaster();
+      otherClients.push({"id":id, "synth":newSynth});
+    });
+
   });
   socket.on('new-connection', function (object) {
     // a new client has joined!
@@ -80,6 +84,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     console.log(object);
   });
   socket.on('client-id', function (object) {
+    console.log("my client id is: "+object.id);
     clientId = object.id;
   });
 });
