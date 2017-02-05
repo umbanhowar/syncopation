@@ -61,7 +61,7 @@
 
 	padding: 0;
 	margin: 0;
-	background-color: transparent;
+	background-color: #f2f2f2;
 	border-bottom: 1px solid #cccccc;
 
 	height: 25px;
@@ -115,7 +115,7 @@
 
 	padding: 0;
 	margin: 0;
-	background-color: transparent;
+	background-color: #f2f2f2;
 
 	left: 0;
 	width: 100%;
@@ -127,7 +127,7 @@
 
 	padding: 0;
 	margin: 0;
-	background-color: transparent;
+	background-color: #f2f2f2;
 	border-right: 1px solid #cccccc;
 
 	width: 25px;
@@ -239,8 +239,16 @@
 	margin: 0;
 	background-color: transparent;
 
-	left: 0;
 	height: 100%;
 	width: 125px;
 
+}
+
+.svg_people {
+	display: block;
+	text-indent: -9999px;
+	width: 125px;
+	height: 125px;
+	background: url(/images/p1.svg);
+	background-size: 100% 100%;
 }
