@@ -169,7 +169,7 @@ angular
             }
 
             self.amp.setVolume(0.01, 0.01); //mute the sound
-            self.osc1.start(0); // start osc1
+            //self.osc1.start(0); // start osc1
         }
 
         function _connectFilter() {

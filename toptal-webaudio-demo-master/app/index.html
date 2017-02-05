@@ -3,7 +3,7 @@
     <head>
         <title>Toptal webaudio demo</title>
         <link href="/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-          <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
 
         <style type="text/css">
             #analyser {
@@ -33,6 +33,58 @@
         Visit www.toptal.com/blog and subscribe to our newsletter to read great posts
         -->
         <div class="synth container" ng-controller="WebSynthCtrl">
+
+
+            <div class="div_player">
+                <div class="div_green_sidebar"></div>
+                <div class="div_center">
+                    <div class="div_top_bar">
+                        <div class="div_ex">
+                            <img src="/images/Asset18.svg" class="svg_ex">
+                        </div>
+                        <label class="label_top_text">synth_01</label>
+                    </div>        
+                    <div class="div_sub_container">
+                        <div class="div_vert_slider">
+                            <input type="range" class="input_vert" min="0" max="150" ng-model="synth.filterRes"/>
+                        </div>
+                        <div class="div_selects">
+                            <select class="select_device">
+                                <option selected disabled>choose device</option>
+                            </select>
+                            <select class="select_waveform">
+                                <option selected disabled>waveform</option>
+                                <option value="1">triangle</option>
+                                <option value="2">sine</option>
+                                <option value="3">square</option>
+                                <option value="4">sawtooth</option>
+                            </select>
+                        </div>
+                        <div class="div_hor_sliders">
+                            <div class="div_slider_input">
+                                <label class="label_text">freq.</label>
+                                <input type="range" class="slider_input" min="0" max="150" ng-model="synth.filterRes"/>
+                            </div>
+                            <div class="div_slider_input">
+                                <label class="label_text">reso.</label>
+                                <input type="range" class="slider_input" min="0" max="150" ng-model="synth.filterRes"/>
+                            </div>
+                            <div class="div_slider_input">
+                                <label class="label_text">attack</label>
+                                <input type="range" class="slider_input" min="0" max="150" ng-model="synth.filterRes"/>
+                            </div>
+                            <div class="div_slider_input">
+                                <label class="label_text">release</label>
+                                <input type="range" class="slider_input" min="0" max="150" ng-model="synth.filterRes"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="div_waveform_visualizer"></div>
+          </div>
+
+
             <h1>webaudio synth</h1>
             <div class="form-group">
                 <select ng-model="activeDevice" class="form-control" ng-options="device.manufacturer + ' ' + device.name for device in devices">
