@@ -12,6 +12,7 @@ var io = require('socket.io').listen(server);
 
 app.use('/', express.static(__dirname + '/app'));
 app.use('/article', express.static(__dirname + '/article'));
+app.use('/vendors', express.static(__dirname + '/../bower_components'));
 
 server.listen(process.env.PORT || 3000);
 
