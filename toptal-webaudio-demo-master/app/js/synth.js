@@ -43,6 +43,19 @@ angular
           return res;
         }
 
+        function _startNoteOnMySynth(e) {
+          var scaledVelocity = e.data[2]/127;
+          var freq = _midiToFreq(e.data[1]);
+          mySynth.triggerAttack(freq, 0, scaledVelocity);
+          console.log("MyclientId "+clientId);
+          socket.emit("note-on", {"note": e.data[1], "velocity":e.data[2], "id": clientId});
+        }
+
+        function _endNoteOnMySynth(e) {
+          mySynth.triggerRelease(_midiToFreq(e.data[1]));
+          socket.emit("note-off", {"note": e.data[1], "id": clientId});
+        }
+
         function _onmidimessage(e) {
             /**
             * e.data is an array
@@ -51,19 +64,23 @@ angular
             * e.data[2] = velocity || detune
             */
             console.log("MIDI received!");
+            console.log(e);
             switch(e.data[0]) {
+                case 153:
+                  // midi pad start
+                  _startNoteOnMySynth(e);
+                break;
+                case 137:
+                  // midi pad end
+                  _endNoteOnMySynth(e);
+                break;
                 case 144:
                     //Engine.noteOn(e.data[1], e.data[2]);
-                    var scaledVelocity = e.data[2]/127;
-                    var freq = _midiToFreq(e.data[1]);
-                    mySynth.triggerAttack(freq, 0, scaledVelocity);
-                    console.log("MyclientId "+clientId);
-                    socket.emit("note-on", {"note": e.data[1], "velocity":e.data[2], "id": clientId});
+                    _startNoteOnMySynth(e);
                 break;
                 case 128:
                     //Engine.noteOff(e.data[1]);
-                    mySynth.triggerRelease(_midiToFreq(e.data[1]));
-                    socket.emit("note-off", {"note": e.data[1], "id": clientId});
+                    _endNoteOnMySynth(e);
                 break;
                 case 224:
                     Engine.detune(e.data[2]);

@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(event) {
   //do work
-  mySynth = new Tone.PolySynth(6, Tone.Synth).toMaster();
+  mySynth = new Tone.PolySynth(6, Tone.FMSynth).toMaster();
   var otherClients = [];
 
   var removeClientById = function(id) {
