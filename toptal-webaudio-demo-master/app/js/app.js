@@ -8,7 +8,11 @@ angular
     .controller('WebSynthCtrl', ['$scope', 'Devices', 'DSP', function($scope, devices, DSP) {
         $scope.devices = [];
         $scope.analyser = null;
-        $scope.players = ["p1", "p2"];//["me"] + otherClients;
+        $scope.players = ["me"];
+
+        for(client in otherClients)
+            $scope.players.push(client.id);
+        console.log(otherClients);
 
         $scope.oscTypes = ['sine', 'square', 'triangle', 'sawtooth'];
         $scope.filterTypes = ['lowpass', 'highpass'];
